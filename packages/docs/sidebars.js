@@ -18,7 +18,7 @@ const sidebars = {
 
   // But you can create a sidebar manually
   docs: [
-    'index',
+    'docs', //documentId
     {
       type: 'category',
       label: 'javascript',

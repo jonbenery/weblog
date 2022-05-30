@@ -4,13 +4,13 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
-const editUrl = '123';
+const homePage = 'https://github.com/trefoils';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'JonBen',
   tagline: '你来过一阵子，我却怀念一辈子',
-  url: editUrl,
+  url: homePage,
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -28,7 +28,20 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'about',
+        path: './packages/about',
+        routeBasePath: 'about',
+        sidebarPath: require.resolve('./packages/about/sidebars.js'),
+        editUrl: homePage,
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true
+      }
+    ]
+  ],
   presets: [
     [
       'classic',
@@ -36,7 +49,7 @@ const config = {
         docs: {
           path: './packages/docs',
           sidebarPath: require.resolve('./packages/docs/sidebars.js'),
-          editUrl: editUrl,
+          editUrl: homePage,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -56,14 +69,12 @@ const config = {
         },
         items: [
           {
-            // type: 'doc',
-            // docId: 'index',
             to: 'docs',
             position: 'left',
             label: '知识库',
           },
           {
-            href: 'https://github.com/jonben',
+            href: homePage,
             label: 'GitHub',
             position: 'right',
           },
@@ -77,8 +88,7 @@ const config = {
             items: [
               {
                 label: '设计模式',
-                // to: '/docs/intro',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus'
+                href: homePage
               },
             ],
           },
@@ -87,11 +97,11 @@ const config = {
             items: [
               {
                 label: '程序员的数学',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                href: homePage,
               },
               {
                 label: '设计模式',
-                href: 'https://discordapp.com/invite/docusaurus',
+                href: homePage,
               }
             ],
           },
@@ -99,8 +109,8 @@ const config = {
             title: '联系方式',
             items: [
               {
-                label: '邮箱 ｜ 联系我',
-                to: '/about'
+                to: 'about',
+                label: '邮箱 ｜ 联系我'
               }
             ]
           }
