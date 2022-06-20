@@ -33,6 +33,4 @@ interface Map<T> {
 type res1 = keyof Map<number>; //string | number
 const value: Map<number>['antzone'];//number
 ```
-:::tip
 在此示例中, `type res1` 是 `string | number` 这是因为 JavaScript 对象`键`始终强制转换为字符串，因此`obj["0"]`始终与`obj[0]`的结果是相同的
-:::

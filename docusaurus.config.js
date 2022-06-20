@@ -6,6 +6,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 const homePage = 'https://github.com/trefoils';
 
+const pagePlugins = ['about', 'book', 'utils']
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'JonBen',
@@ -29,18 +31,20 @@ const config = {
     locales: ['en'],
   },
   plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'about',
-        path: './packages/about',
-        routeBasePath: 'about',
-        sidebarPath: require.resolve('./packages/about/sidebars.js'),
-        editUrl: homePage,
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true
-      }
-    ]
+    ...pagePlugins.map(page => {
+      return [
+        '@docusaurus/plugin-content-docs',
+        {
+          id: page,
+          path: `./packages/${page}`,
+          routeBasePath: page,
+          sidebarPath: require.resolve(`./packages/${page}/sidebars.js`),
+          editUrl: homePage,
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true
+        }
+      ]
+    })
   ],
   presets: [
     [
@@ -72,6 +76,16 @@ const config = {
             to: 'docs',
             position: 'left',
             label: '知识库',
+          },
+          {
+            to: 'book',
+            position: 'left',
+            label: '阅读',
+          },
+          {
+            to: 'utils',
+            position: 'left',
+            label: '工具类',
           },
           {
             href: homePage,

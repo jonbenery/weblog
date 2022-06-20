@@ -64,9 +64,3 @@ S.say();
 const s1 = new S()
 s1.sayHello();
 ```
-
-
-
-
-
-```

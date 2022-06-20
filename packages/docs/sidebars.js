@@ -35,19 +35,12 @@ const sidebars = {
         'typescript/guard',
         'typescript/abstract',
         'typescript/keyof',
+        'typescript/generics',
         'typescript/infer',
         'typescript/utilTypes',
-        'typescript/class',
-        'typescript/generics'
+        'typescript/class'
       ],
-    },
-    {
-      type: 'category',
-      label: 'yuedu',
-      items: [
-        'yuedu/demo'
-      ],
-    },
+    }
   ],
 };
 
