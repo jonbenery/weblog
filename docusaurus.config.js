@@ -3,8 +3,8 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-
-const homePage = 'https://github.com/trefoils';
+const url = 'https://jonbenery.github.io'
+const homePage = 'https://github.com/jonbenery.github.io';
 
 const pagePlugins = ['about', 'book', 'utils']
 
@@ -12,7 +12,7 @@ const pagePlugins = ['about', 'book', 'utils']
 const config = {
   title: 'JonBen',
   tagline: '你来过一阵子，我却怀念一辈子',
-  url: homePage,
+  url: url,
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
