@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkweblog=self.webpackChunkweblog||[]).push([[62],{5127:function(e){e.exports=JSON.parse('{"pluginId":"about","version":"current","label":"Next","banner":null,"badge":false,"className":"docs-version-current","isLast":true,"docsSidebars":{},"docs":{"main":{"id":"main","title":"\u5173\u4e8e","description":""}}}')}}]);
