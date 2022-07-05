@@ -48,12 +48,14 @@ const config = {
   ],
   presets: [
     [
-      'classic',
+      '@docusaurus/preset-classic',
       ({
         docs: {
           path: './packages/docs',
           sidebarPath: require.resolve('./packages/docs/sidebars.js'),
           editUrl: homePage,
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -62,80 +64,79 @@ const config = {
     ],
   ],
 
-  themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
-      navbar: {
-        title: '零下6℃',
-        logo: {
-          alt: 'no pains no gains',
-          src: 'img/favicon.ico',
+  themeConfig:{
+    docsSideNavCollapsible: true,
+    navbar: {
+      title: '零下6℃',
+      logo: {
+        alt: 'no pains no gains',
+        src: 'img/favicon.ico',
+      },
+      items: [
+        {
+          to: 'docs',
+          position: 'left',
+          label: '知识库',
         },
-        items: [
-          {
-            to: 'docs',
-            position: 'left',
-            label: '知识库',
-          },
-          {
-            to: 'book',
-            position: 'left',
-            label: '阅读',
-          },
-          {
-            to: 'utils',
-            position: 'left',
-            label: '工具类',
-          },
-          {
-            href: homePage,
-            label: 'GitHub',
-            position: 'right',
-          },
-        ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: '快速导航',
-            items: [
-              {
-                label: '设计模式',
-                href: homePage
-              },
-            ],
-          },
-          {
-            title: '收藏',
-            items: [
-              {
-                label: '程序员的数学',
-                href: homePage,
-              },
-              {
-                label: '设计模式',
-                href: homePage,
-              }
-            ],
-          },
-          {
-            title: '联系方式',
-            items: [
-              {
-                to: 'about',
-                label: '邮箱 ｜ 联系我'
-              }
-            ]
-          }
-        ],
-        copyright: `AGPL-3.0 Licensed | Copyright © ${new Date().getFullYear()} weblog, Inc. Built with Jonben.`,
-      },
-      prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-      }
-    }),
+        {
+          to: 'utils',
+          position: 'left',
+          label: '工具类',
+        },
+        {
+          to: 'book',
+          position: 'left',
+          label: '阅读',
+        },
+        {
+          href: homePage,
+          label: 'GitHub',
+          position: 'right',
+        },
+      ],
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: '快速导航',
+          items: [
+            {
+              label: '设计模式',
+              href: homePage
+            },
+          ],
+        },
+        {
+          title: '收藏',
+          items: [
+            {
+              label: '程序员的数学',
+              href: homePage,
+            },
+            {
+              label: '设计模式',
+              href: homePage,
+            }
+          ],
+        },
+        {
+          title: '联系方式',
+          items: [
+            {
+              to: 'about',
+              label: '邮箱 ｜ 联系我'
+            }
+          ]
+        }
+      ],
+      copyright: `AGPL-3.0 Licensed | Copyright © ${new Date().getFullYear()} weblog, Inc. Built with Jonben.`,
+    },
+    prism: {
+      theme: lightCodeTheme,
+      darkTheme: darkCodeTheme,
+    }
+  },
 };
 
 module.exports = config;
