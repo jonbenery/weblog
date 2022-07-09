@@ -40,6 +40,21 @@ const sidebars = {
         'typescript/utilTypes',
         'typescript/class'
       ],
+    },
+    {
+      type: 'category',
+      label: 'git',
+      items: [
+        'git/git',
+        'git/gitRepository'
+      ]
+    },
+    {
+      type: 'category',
+      label: 'svg',
+      items: [
+        'svg/bezier'
+      ]
     }
   ],
 };

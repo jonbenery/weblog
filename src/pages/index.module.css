@@ -9,7 +9,8 @@
   position: relative;
   height: 600px;
   overflow: hidden;
-  background: url('../../static/img/bg.jpg') no-repeat 0 0;
+  /* background: url('../../static/img/home/bg1.jpg') no-repeat 0 0; */
+  background: var(--bg);
   background-size: 100%;
 }
 

@@ -1,0 +1,174 @@
+---
+hide_title: true
+title: svg之贝塞尔曲线
+---
+import {RenderImg, RenderBezier3} from './index.js';
+
+## 1. 贝塞尔曲线基本概要
+
+贝塞尔曲线就是这样的一条曲线，它是依据四个位置任意的点坐标绘制出的一条光滑曲线。在历史上，研究贝塞尔曲线的人最初是按照已知曲线参数方程来确定四个点的思路设计出这种矢量曲线绘制法。贝塞尔曲线的有趣之处更在于它的“皮筋效应”，也就是说，随着点有规律地移动，曲线将产生皮筋伸引一样的变换，带来视觉上的冲击。1962年，法国数学家Pierre Bézier第一个研究了这种矢量绘制曲线的方法，并给出了详细的计算公式，因此按照这样的公式绘制出来的曲线就用他的姓氏来命名是为贝塞尔曲线。
+
+<RenderImg
+  src="../../img/svg/bezier1.gif"
+  text="线性贝塞尔曲线, t在[0,1]"/>
+<RenderImg src="../../img/svg/bezier2.gif"
+  text="二次贝塞尔曲线, t在[0,1]"/>
+<RenderImg src="../../img/svg/bezier3.gif"
+  text="三次贝塞尔曲线, t在[0,1]"/>
+<RenderImg src="../../img/svg/bezier4.gif"
+  text="四次贝塞尔曲线, t在[0,1]"/>
+<RenderImg src="../../img/svg/bezier5.gif"
+  text="五次贝塞尔曲线, t在[0,1]"/>
+
+以上动图都是基于数学公式，目前阶段接触公式不利于我们的学习，因此，感受一下就可以了。😊
+
+## 2. 贝塞尔曲线的指令
+
+SVG中path的元素，也就是路径绘制，属性名称是d, 具体值是由专门的“指令字母+坐标值”实现的
+
+例如：
+```javascript
+<path d="M10 10L90 90" stroke="#000000" style="stroke-width: 5px;"></path>
+```
+该路径表示以坐标点(10, 10)开始，以(90, 90)点为结束绘制一条直线
+
+
+标准的指令字母是10个，外加1个非标准的。
+
+| 命令 | 名称 | 参数 |
+| :---- | :---- | :---- |
+| M	| moveto  移动到	 | (x y)+ |
+| Z	| closepath  关闭路径	 | (none) |
+| L	| lineto  画线到	 | (x y)+ |
+| H	| horizontal lineto  水平线到	 | x+ |
+| V	| vertical lineto  垂直线到	 | y+ |
+| C	| curveto  三次贝塞尔曲线到	 | (x1 y1 x2 y2 x y)+ |
+| S	| smooth curveto  光滑三次贝塞尔曲线到	 | (x2 y2 x y)+ |
+| Q	| quadratic Bézier curveto  二次贝塞尔曲线到	 | (x1 y1 x y)+ |
+| T	| smooth quadratic Bézier curveto  光滑二次贝塞尔曲线到	 | (x y)+ |
+| A	| elliptical arc  椭圆弧	 | (rx ry x-axis-rotation large-arc-flag sweep-flag x y)+ |
+| R	| Catmull-Rom curveto*  Catmull-Rom曲线	 | x1 y1 (x y)+ |
+
+其中，Catmull-Rom曲线不是标准的SVG命令，我们这里不予以讨论
+
+:::info 注意
+如果指令字母是大写的，例如M, 则表示坐标位置是绝对位置；如果指令字母小写的，例如m, 则表示坐标位置是相对位置
+:::
+
+其中，有5个指定属于基本指令
+
+| 指令字母（绝对坐标）| 中文含义 | 参数示意 | 具体说明 |
+|:---- | :---- |:---- | :---- |
+| M	| 移动到(moveTo) |	x,y	| 路径起始点坐标 |
+| Z	| 闭合路径(closepath) |	| 将路径的开始和结束点用直线连接 |
+| L	| 直线(lineTo) | x,y	| 当前节点到指定(x,y)节点，直线连接 |
+| H	| 水平直线 |x	| 保持当前点的y坐标不变，x轴移动到x, 形成水平线 |
+| V	| 垂直直线 |y	| 保持当前点的x坐标不变，y轴移动到y, 形成垂直线 |
+
+
+## 3. 三次贝塞尔曲线
+<RenderImg
+  width="auto"
+  src="../../img/svg/bezier3-example.png"/>
+
+上图，是Adobe Photoshop中使用钢笔工具时候的截图再加工。所谓钢笔工具抠图实际上就是一个一个贝塞尔曲线连接的结果，各类图形绘制软件类似工具本质上都是贝塞尔曲线。
+
+我们可以看到，上面图片有4个点出现，曲线的两个端点，以及两个控制点，这就是典型的三次贝塞尔曲线。
+
+曲线是我们实际存在的路径（描边就可见），而两个控制点是看不见的（虚的），只是用来确定曲线的弧度等。
+
+### 1. C指令（三次贝塞尔曲线到）
+
+一般而言，“三次贝塞尔曲线”的指令是
+```javascript
+C x1 y1, x2 y2, x y 
+```
+
+下面我们来展示一种三次贝塞尔曲线
+
+<RenderBezier3/>
+
+代码示例：
+```javascript
+<svg id="svg" width="200" height="100">
+  <desc>三次贝塞尔曲线</desc><defs></defs>
+  <path
+    d="M20,20 C-60,20 200,80 120,80"
+    stroke="#000000"
+    fill="none"
+    style="stroke-width: 2px;"></path>
+  <text x="60" y="60">三次贝塞尔曲线</text>
+</svg>
+```
+
+或者逗号用来区分每个点坐标（主流写法）：
+```javascript
+<svg id="svg" width="200" height="100">
+  <desc>三次贝塞尔曲线</desc><defs></defs>
+  <path
+    d="M20 20 , C-60 20 , 200 80, 120 80"
+    stroke="#000000"
+    fill="none"
+    style="stroke-width: 2px;"></path>
+  <text x="60" y="60">三次贝塞尔曲线</text>
+</svg>
+```
+或者不需要逗号
+```javascript
+<svg id="svg" width="200" height="100">
+  <desc>三次贝塞尔曲线</desc><defs></defs>
+  <path
+    d="M20 20 C-60 20 200 80 120 80"
+    stroke="#000000"
+    fill="none"
+    style="stroke-width: 2px;"></path>
+  <text x="60" y="60">三次贝塞尔曲线</text>
+</svg>
+```
+
+### 2. S指令（光滑三次贝塞尔曲线到）
+
+[MDN](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Paths) 上的解释为：
+S 命令可以用来创建与前面一样的贝塞尔曲线，但是，如果 S 命令跟在一个 C 或 S 命令后面，则它的第一个控制点会被假设成前一个命令曲线的第二个控制点的中心对称点。
+如果 S 命令单独使用，前面没有 C 或 S 命令，那当前点将作为第一个控制点。下面是 S 命令的语法示例，图中左侧红色标记的点对应的控制点即为蓝色标记点。
+
+白话理解就是如果S前面有曲线S或者C的时候，S会相对于前一个曲线的第二个控制点生成一个对称的控制点用做自己的第一个控制点，
+如果前面没有曲线S或者C的时候，仅存在了一个控制点，就等同于了二次贝塞尔曲线。
+
+<RenderImg
+  src="../../img/svg/bezier3-sc.png"/>
+
+代码示例：
+```javascript
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"
+    stroke="black"
+    fill="transparent"/>
+</svg>
+```
+C指令有三个坐标参数，而S指令自动对称一个控制点，因此，跟在C指令之后的S指令，只需要2个参数哦，如下：
+
+```javascript
+S x2 y2, x y
+```
+
+## 4. 二次贝塞尔曲线
+<RenderImg
+  src="../../img/svg/bezier2.png"/>
+
+贝塞尔曲线是二次贝塞尔曲线 Q，它比三次贝塞尔曲线简单，只需要一个控制点，用来确定起点和终点的曲线斜率。因此它需要两组参数，控制点和终点坐标。
+```javascript
+ Q x1 y1, x y
+```
+
+
+就像三次贝塞尔曲线有一个 S 命令，二次贝塞尔曲线有一个差不多的 T 命令，可以通过更简短的参数，延长二次贝塞尔曲线
+```javascript
+ T x y
+```
+<RenderImg
+  src="../../img/svg/bezier2-qt.png"/>
+
+和之前一样，快捷命令 T 会通过前一个控制点，推断出一个新的控制点。这意味着，在你的第一个控制点后面，可以只定义终点，就创建出一个相当复杂的曲线。
+需要注意的是，T 命令前面必须是一个 Q 命令，或者是另一个 T 命令，才能达到这种效果。如果 T 单独使用，那么控制点就会被认为和终点是同一个点，所以画出来的将是一条直线。

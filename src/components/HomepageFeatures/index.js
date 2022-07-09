@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: '记录',
-    img: './img/undraw_typewriter.svg',
+    img: './img/home/undraw_typewriter.svg',
     description: (
       <>
         把所见、所闻、所思、所想等写下来
@@ -14,7 +14,7 @@ const FeatureList = [
   },
   {
     title: '思考',
-    img: './img/undraw_version_control.svg',
+    img: './img/home/undraw_version_control.svg',
     description: (
       <>
         学而不思则罔，思而不学则殆
@@ -23,7 +23,7 @@ const FeatureList = [
   },
   {
     title: '温习',
-    img: './img/code.png',
+    img: './img/home/code.png',
     description: (
       <>
         温故而知新

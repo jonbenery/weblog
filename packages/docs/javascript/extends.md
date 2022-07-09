@@ -179,4 +179,4 @@ stu1.getSchool()
 // setPrototypeOf
 ```
 ## 6.原型链继承图
-![原型链继承图](../../../static/img/prototype.jpeg)
+![原型链继承图](../../../static/img/javascript/prototype.jpeg)

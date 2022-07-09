@@ -11,7 +11,7 @@ const pagePlugins = ['about', 'book', 'utils']
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'JonBen',
-  tagline: '你来过一阵子，我却怀念一辈子',
+  tagline: '你总是羡慕围城之外的美好，但其实城外又何尝不是另一座围城',
   url: url,
   baseUrl: '/',
   onBrokenLinks: 'throw',
