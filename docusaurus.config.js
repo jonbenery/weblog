@@ -7,11 +7,12 @@ const url = 'https://jonbenery.github.io'
 const homePage = 'https://github.com/jonbenery.github.io';
 
 const pagePlugins = ['about', 'book', 'utils']
+// 你总是羡慕围城之外的美好，但其实城外又何尝不是另一座围城
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'JonBen',
-  tagline: '你总是羡慕围城之外的美好，但其实城外又何尝不是另一座围城',
+  tagline: '万物皆有裂痕，那是光照进来的地方',
   url: url,
   baseUrl: '/',
   onBrokenLinks: 'throw',

@@ -25,7 +25,9 @@ const sidebars = {
       items: [
         'javascript/extends',
         'javascript/extendsStatic',
-        'javascript/extendsFun'
+        'javascript/extendsFun',
+        'javascript/setPropotype',
+        'javascript/regExp'
       ],
     },
     {
