@@ -34,14 +34,22 @@ const sidebars = {
       type: 'category',
       label: 'typescript',
       items: [
+        'typescript/tsconfig',
         'typescript/guard',
         'typescript/abstract',
         'typescript/keyof',
         'typescript/generics',
         'typescript/infer',
         'typescript/utilTypes',
-        'typescript/class'
+        'typescript/class',
       ],
+    },
+    {
+      type: 'category',
+      label: 'webpack',
+      items: [
+        'webpack/require.context'
+      ]
     },
     {
       type: 'category',
