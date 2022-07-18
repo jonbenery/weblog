@@ -15,6 +15,11 @@ const sidebars = {
       type: 'doc',
       id: 'mousemoveSimulationScroll',
       label: '鼠标模拟滚动条滚动',
+    },
+    {
+      type: 'doc',
+      id: 'content.visibility',
+      label: '用css新特性优化长列表',
     }
   ]
 };

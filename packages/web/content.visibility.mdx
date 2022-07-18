@@ -1,0 +1,182 @@
+废话不多说，该属性为 `content-visibility`
+
+
+## 1. 何为 content-visibility？
+
+`content-visibility` ：属性控制一个元素是否渲染其内容，它允许用户代理（浏览器）潜在地省略大量布局和渲染工作，直到需要它为止。
+:::info MDN 原文
+The content-visibility CSS property controls whether or not an element renders its contents at all, along with forcing a strong set of containments, allowing user agents to potentially omit large swathes of layout and rendering work until it becomes needed. Basically it enables the user agent to skip an element's rendering work (including layout and painting) until it is needed — which makes the initial page load much faster.
+:::
+
+它有几个常见的取值。
+```CSS
+content-visibility: visible;
+content-visibility: hidden;
+content-visibility: auto;
+```
+
+分别解释一下：
+* `content-visibility: visible` ：默认值，没有任何效果，相当于没有添加 `content-visibility`，元素的渲染与往常一致。
+* `content-visibility: hidden` ：与 `display: none` 类似，用户代理将跳过其内容的渲染。（这里需要注意的是，跳过的是内容的渲染）
+* `content-visibility: auto` ：如果该元素不在屏幕上，并且与用户无关，则不会渲染其后代元素。
+
+## 2. contain-intrinsic-size
+
+当然，除 `content-visibility` 之外，还有一个与之配套的属性 `contain-intrinsic-size`。
+
+`contain-intrinsic-size` ：控制由 `content-visibility` 指定的元素的自然大小。
+
+## 3. 利用 content-visibility: hidden 优化展示切换性能
+
+首先，假设我们有两个 DIV 包裹框：
+
+```html
+<div class="g-wrap">
+  <div>1111</div>
+  <div class="hidden">2222</div>
+</div>
+```
+设置两个 div 为 200x200 的黑色块：
+```CSS
+.g-wrap > div {
+  width: 60px;
+  height: 60px;
+  background: #000;
+}
+```
+
+import { RenderHtml } from './content.visibility.js'
+
+效果如下：
+
+<RenderHtml/>
+
+OK，没有问题，接下来，我们给其中的 `.hidden` 设置 `content-visibility: hidden`，看看会发生什么：
+```CSS
+.hidden {
+  content-visibility: hidden;
+}
+```
+效果如下：
+
+<RenderHtml hidden="hidden"/>
+
+注意，仔细看效果，这里添加了 `content-visibility: hidden` 之后，**消失的只是添加了该元素的 `div` 的子元素消失不见，而父元素本身及其样式，还是存在页面上的。**
+
+如果我们去掉设置了 `content-visibility: hidden` 的元素本身的 `width`、`height`、`padding`、`margin` 等属性，则元素看上去就如同设置了 `display: none` 一般，在页面上消失不见了。
+
+那么，`content-visibility: hidden` 的作用是什么呢？
+
+设置了 `content-visibility: hidden` 的元素，**其元素的子元素将被隐藏，但是，它的渲染状态将会被缓存**。所以，当 `content-visibility: hidden` 被移除时，用户代理无需重头开始渲染它和它的子元素。
+
+因此，如果我们将这个属性应用在一些一开始需要被隐藏，但是其后在页面的某一时刻需要被渲染，或者是一些需要被频繁切换显示、隐藏状态的元素上，其渲染效率将会有一个非常大的提升。
+
+## 4. 利用 content-visibility: auto 实现懒加载或虚拟列表
+
+OK，接下来是 `content-visibility` 的核心用法，利用 `auto` 属性值。
+
+`content-visibility: auto` 的作用是，如果该元素不在屏幕上，并且与用户无关，则不会渲染其后代元素。是不是与 `LazyLoad` 非常类似。
+
+我们来看这样一个 DEMO ，了解其作用：
+
+假设，我们存在这样一个 HTML 结构，含有大量的文本内容：
+
+```HTML
+<div class="g-wrap">
+    <div class="paragraph">...</div>
+    // ... 包含了 N 个 paragraph
+    <div class="paragraph">...</div>
+</div>
+```
+每个 `.paragraph` 的内容如下
+```HTML
+Lorem Start!
+Lorem ipsum dolor sit amet consectetur adipisicing elit.Nonvitae voluptates maxime solutaimpedit doloremque atque quasi dignissimosdelectus distinctio aut commodieaque nostrum maiores nulla! Ipsum voluptatibus alias suscipit!
+Lorem ipsum dolor sit amet consectetur adipisicingelit.Non vitae voluptates maxime solutaimpedit doloremque atque quasi dignissimos,delectus distinctio aut commodi eaque nostrum maiores nulla! Ipsum voluptatibus alias suscipit!
+Lorem End!
+```
+
+因此，整个的页面看起来就是这样的：
+
+import { RenderImg } from '../../src/common/index.js';
+
+<RenderImg
+  width="auto"
+  src="../../img/web/content.visibility.1.gif"/>
+
+由于，我们没有对页面内容进行任何处理，因此，所有的 `.paragraph` 在页面刷新的一瞬间，都会进行渲染，看到的效果就如上所示。
+
+当然，现代浏览器愈加趋于智能，基于这种场景，其实我们非常希望对于仍未看到，仍旧未滚动到的区域，可以延迟加载，只有到我们需要展示、滚动到该处时，页面内容才进行渲染。
+
+基于这种场景，`content-visibility: auto` 就应运而生了，它允许浏览器对于设置了该属性的元素进行判断，如果该元素当前不处于视口内，则不渲染该元素。
+
+我们基于上述的代码，只需要最小化，添加这样一段代码：
+```CSS
+.paragraph {
+  content-visibility: auto;
+}
+```
+再看看效果，仔细观察右侧的滚动条：
+
+<RenderImg
+  width="auto"
+  src="../../img/web/content.visibility.2.png"/>
+
+可能你还没意识到发生了什么，我们对比下添加了 `content-visibility: auto` 和没有添加 `content-visibility: auto` 的两种效果下文本的整体高度：
+
+<RenderImg
+  width="auto"
+  src="../../img/web/content.visibility.3.png"/>
+
+有着非常明显的差异，这是因为，设置了 `content-visibility: auto` 的元素，在非可视区域内，目前并没有被渲染，因此，右侧内容的高度其实是比正常状态下少了一大截的。
+
+我们实际开始进行滚动，看看会发生什么：
+
+<RenderImg
+  width="auto"
+  src="../../img/web/content.visibility.4.gif"/>
+
+由于下方的元素在滚动的过程中，出现在视口范围内才被渲染，因此，滚动条出现了明显的飘忽不定的抖动现象。（当然这也是使用了 `content-visibility: auto` 的一个小问题之一），不过明显可以看出，这与我们通常使用 JavaScript 实现的懒加载或者延迟加载非常类似。
+
+当然，与懒加载不同的是，在向下滚动的过程中，上方消失的已经被渲染过且消失在视口的元素，也会因为消失在视口中，重新被隐藏。因此，即便页面滚动到最下方，整体的滚动条高度还是没有什么变化的。
+
+
+## 5. 利用 contain-intrinsic-size 解决滚动条抖动问题
+
+从上面的例子，也能看到，在利用 `content-visibility: auto` 处理长文本、长列表的时候。在滚动页面的过程中，滚动条一直在抖动，这不是一个很好的体验。
+
+好在，规范制定者也发现了这个问题。这里我们可以使用另外一个 `CSS` 属性，也就是文章一开头提到的另外一个属性 `contain-intrinsic-size` 来解决这个问题。
+
+:::info MDN
+`contain-intrinsic-size` ：控制由 `content-visibility` 指定的元素的自然大小。
+:::
+
+什么意思呢？还是上面的例子
+```HTML
+<div class="g-wrap">
+  <div class="paragraph">...</div>
+  // ... 包含了 N 个 paragraph
+  <div class="paragraph">...</div>
+</div>
+```
+如果我们不使用 `contain-intrinsic-size`，只对视口之外的元素使用 `content-visibility: auto`，那么视口外的元素高度通常就为 0。导致实际的滚动效果，滚动条就是抖动的。
+
+所以，我们可以同时利用上 `contain-intrinsic-size`，如果能准确知道设置了 `content-visibility: auto` 的元素在渲染状态下的高度，就填写对应的高度。如果如法准确知道高度，也可以填写一个大概的值：
+
+```CSS
+.paragraph {
+  content-visibility: auto;
+  contain-intrinsic-size: 320px;
+}
+```
+如此之后，浏览器会给未被实际渲染的视口之外的 `.paragraph` 元素一个高度，避免出现滚动条抖动的现象：
+
+<RenderImg
+  width="auto"
+  src="../../img/web/content.visibility.5.gif"/>
+
+## 6.content-visibility 的一些其他问题
+
+目前兼容性还是比较惨淡的，需要再等待一段时间。当然，由于该属性属于渐进增强一类的功能，即便失效，也完全不影响页面本身的展示。
+同时，也有一些同学表示，利用 `content-visibility: auto` 只能解决部分场景，在海量 DOM 的场景下的实际效果，还有待进一步的实测。真正运用的时候，多做对比，再做取舍。
+当然，现代浏览器已经越来越智能，类似 `content-visibility` 功能的属性也越来越多，我们在性能优化的路上有了更多选择，总归是一件好事。
