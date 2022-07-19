@@ -56,7 +56,7 @@ const sidebars = {
       label: 'git',
       items: [
         'git/git',
-        'git/gitRepository'
+        'git/gitCmd'
       ]
     },
     {

@@ -46,3 +46,25 @@ git branch -d <branch-name>
 ```
 git checkout -t origin/分支名
 ```
+**12. 关联git仓库**
+创建新的仓库
+```powershell
+echo "# gitHelp" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:jonbenery/gitHelp.git
+git push -u origin main
+```
+关联已经存在的仓库
+```powershell
+git remote add origin git@github.com:jonbenery/gitHelp.git
+git branch -M main
+git push -u origin mains
+```
+
+**13. 解除远程仓库关联**
+```powershell
+git remote rm origin
+```
