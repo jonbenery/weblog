@@ -4,9 +4,9 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const url = 'https://jonbenery.github.io'
-const homePage = 'https://github.com/jonbenery.github.io';
+const homePage = 'https://github.com/jonbenery/weblog';
 
-const pagePlugins = ['about', 'book', 'web']
+const pagePlugins = ['about', 'book', 'web', 'api']
 // 你总是羡慕围城之外的美好，但其实城外又何尝不是另一座围城
 
 /** @type {import('@docusaurus/types').Config} */
@@ -88,6 +88,11 @@ const config = {
           to: 'book',
           position: 'left',
           label: '阅读',
+        },
+        {
+          to: 'api',
+          position: 'left',
+          label: 'api接口',
         },
         {
           href: homePage,

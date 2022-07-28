@@ -101,7 +101,7 @@ Lorem End!
 import { RenderImg } from '../../src/common/index.js';
 
 <RenderImg
-  width="auto"
+  width="600px"
   src="../../img/web/content.visibility.1.gif"/>
 
 由于，我们没有对页面内容进行任何处理，因此，所有的 `.paragraph` 在页面刷新的一瞬间，都会进行渲染，看到的效果就如上所示。
@@ -119,13 +119,13 @@ import { RenderImg } from '../../src/common/index.js';
 再看看效果，仔细观察右侧的滚动条：
 
 <RenderImg
-  width="auto"
+  width="600px"
   src="../../img/web/content.visibility.2.png"/>
 
 可能你还没意识到发生了什么，我们对比下添加了 `content-visibility: auto` 和没有添加 `content-visibility: auto` 的两种效果下文本的整体高度：
 
 <RenderImg
-  width="auto"
+  width="600px"
   src="../../img/web/content.visibility.3.png"/>
 
 有着非常明显的差异，这是因为，设置了 `content-visibility: auto` 的元素，在非可视区域内，目前并没有被渲染，因此，右侧内容的高度其实是比正常状态下少了一大截的。
@@ -133,7 +133,7 @@ import { RenderImg } from '../../src/common/index.js';
 我们实际开始进行滚动，看看会发生什么：
 
 <RenderImg
-  width="auto"
+  width="600px"
   src="../../img/web/content.visibility.4.gif"/>
 
 由于下方的元素在滚动的过程中，出现在视口范围内才被渲染，因此，滚动条出现了明显的飘忽不定的抖动现象。（当然这也是使用了 `content-visibility: auto` 的一个小问题之一），不过明显可以看出，这与我们通常使用 JavaScript 实现的懒加载或者延迟加载非常类似。
@@ -172,7 +172,7 @@ import { RenderImg } from '../../src/common/index.js';
 如此之后，浏览器会给未被实际渲染的视口之外的 `.paragraph` 元素一个高度，避免出现滚动条抖动的现象：
 
 <RenderImg
-  width="auto"
+  width="600px"
   src="../../img/web/content.visibility.5.gif"/>
 
 ## 6.content-visibility 的一些其他问题
