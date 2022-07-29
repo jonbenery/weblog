@@ -4,6 +4,15 @@
   font-weight: bold;
   margin-bottom: 10px;;
 }
+.content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 500px;
+  white-space: nowrap;
+  background-color: #f1f1f1;
+  padding: 5px;
+  border-radius: 4px;;
+}
 input {
   outline: 0;
   width: 300px;
@@ -24,7 +33,6 @@ button {
   border-radius: 3px;;
   cursor: pointer;
 }
-.preview {
-  max-width: 500px;
-  max-height: 300px;
+.marginTop {
+  margin-top: 20px;
 }
