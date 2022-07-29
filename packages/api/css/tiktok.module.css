@@ -1,0 +1,30 @@
+.tag {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;;
+}
+input {
+  outline: 0;
+  width: 300px;
+  height: 34px;
+  line-height: 34px;
+  border-radius: 4px;;
+  border: 1px solid #5676fc;
+  padding-left: 5px;
+}
+button {
+  margin-left: 10px;
+  outline: 0;
+  border: 1px solid #5676fc;
+  background-color: #3676fc;
+  color: #fff;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 3px;;
+  cursor: pointer;
+}
+.preview {
+  max-width: 500px;
+  max-height: 300px;
+}
